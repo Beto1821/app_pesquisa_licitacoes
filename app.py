@@ -3,6 +3,7 @@ from flask import Flask, render_template, request
 from bs4 import BeautifulSoup
 import requests
 import re
+import os # Importar a biblioteca os
 
 app = Flask(__name__)
 
@@ -122,7 +123,7 @@ def scrape_website_cards(max_pages_to_scrape=9):
 def index():
     search_term = ""
     filtered_cards = []
-    # Raspar os cards apenas uma vez por requisição ou usar cache
+    
     # Recebe o valor do dropdown do formulário, se existir
     try:
         max_pages = int(request.form.get('max_pages', 9))
@@ -152,6 +153,7 @@ def index():
 
 
 if __name__ == '__main__':
-    # Certifique-se de que 'requests' e 'beautifulsoup4' estão instalados
-    # pip install Flask beautifulsoup4 requests
-    app.run(debug=True)
+    # Esta linha só será executada quando o script for rodado diretamente (localmente).
+    # Em ambientes de produção como o Railway, o Gunicorn inicia a aplicação.
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=False, host='0.0.0.0', port=port) # Mudado debug para False e host para '0.0.0.0'
