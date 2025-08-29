@@ -11,6 +11,10 @@
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6;
         }
+        /* Espaçamento entre textos das tags <p> dentro dos cards */
+        .card p {
+            margin-bottom: 0.5em;
+        }
         .card-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -66,8 +70,10 @@
                     class="flex-1 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-auto"
                 />
                 <select name="max_pages" class="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    {% for n in range(1, 16) %}
-                        <option value="{{ n }}" {% if n == 9 %}selected{% endif %}>{{ n }} páginas</option>
+                    {% for i in range(1, 16) %}
+                        {% set value = i * 9 %}
+                        {% set label = i * 6 %}
+                        <option value="{{ value }}" {% if value == 9 %}selected{% endif %}>{{ label }} últimas publicações</option>
                     {% endfor %}
                 </select>
                 <button
