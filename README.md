@@ -31,29 +31,37 @@ app_pesquisa_licitacoes/
    - Garanta que o terminal está na pasta raiz do projeto.
 
 3. **Instalar as dependências**
-   - Execute no terminal:
-     ```bash
-     pip install -r requirements.txt
-     ```
-   - Alternativamente, se não tiver o arquivo `requirements.txt`, use:
-     ```bash
-     pip install Flask beautifulsoup4 requests
+    - Ative o ambiente virtual antes de instalar as dependências:
+       ```bash
+       source .venv/bin/activate
+       ```
+    - Depois, execute:
+       ```bash
+       pip install -r requirements.txt
+       ```
+    - Alternativamente, se não tiver o arquivo `requirements.txt`, use:
+       ```bash
+       pip install Flask beautifulsoup4 requests
      ```
 
 4. **Executar o aplicativo Flask**
-   - No terminal, execute:
-     ```bash
-     python app.py
-     ```
-   - O servidor Flask será iniciado. Você verá uma mensagem como:
-     ```
-     * Debug mode: on
-     * Running on http://127.0.0.1:5000
-     Press CTRL+C to quit
-     ```
+    - No terminal, execute:
+       ```bash
+       python app.py
+       ```
+    - Se não funcionar, tente:
+       ```bash
+       flask run
+       ```
+    - O servidor Flask será iniciado. Você verá uma mensagem como:
+       ```
+       * Debug mode: on
+       * Running on http://127.0.0.1:5000
+       Press CTRL+C to quit
+       ```
 
 5. **Acessar o aplicativo no navegador**
-   - Abra o navegador e acesse: [http://127.0.0.1:5000](http://127.0.0.1:5000)
+   - Abra o navegador e acesse: [http://127.0.0.1:5000]
 
 6. **Testar a funcionalidade**
    - Digite uma palavra-chave na caixa de pesquisa e clique em "Pesquisar".
