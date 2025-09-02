@@ -1,3 +1,14 @@
+# ⚠️ **Protótipo em desenvolvimento!**
+
+Este projeto está em fase inicial e irá integrar os dados das SREs de Varginha, Poços de Caldas, Campo Belo, Pouso Alegre, Itajubá e Caxambu para monitoramento e participação nos processos de caixa escolar.
+
+O maior desafio é unificar informações de diferentes SREs, pois cada uma possui estrutura e padrão próprios, dificultando a padronização dos dados.
+
+Futuramente, o projeto será migrado para Python/React, visando maior flexibilidade e escalabilidade.
+
+O protótipo está disponível via deploy Railway em:
+👉 https://apppesquisalicitacoes-production.up.railway.app/
+
 
 # Pesquisador de Licitações Escolares
 
