@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisar Licitações</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      function toggleDarkMode() {
+        document.documentElement.classList.toggle('dark');
+      }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        /* Cards em coluna, fonte menor, espaçamento ajustado */
+        .card-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .card-wrapper {
+            background-color: #ffffff;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px -1px rgba(0,0,0,0.08);
+            padding: 1rem;
+            border-left: 4px solid #61B1DE;
+            word-wrap: break-word;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        .card-wrapper p {
+            margin-bottom: 0.3em;
+            font-size: 0.92rem;
+        }
+
+        .caixa-escolar {
+            color: #e57373; /* vermelho suave */
+            font-weight: bold;
+        }
+        .data-ate {
+            color: #388e3c; /* verde suave */
+            font-style: italic;
+        }
+        .search-form {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        @media (max-width: 768px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* Dark mode styles */
+        html.dark body {
+            background-color: #111827;
+        }
+        html.dark .search-form {
+            background-color: #1f2937;
+            color: #f3f4f6;
+        }
+        html.dark .card-wrapper {
+            background-color: #1f2937;
+            color: #f3f4f6;
+            border-left: 4px solid #2563eb;
+        }
+        html.dark h1, html.dark h2 {
+            color: #f3f4f6 !important;
+        }
+        html.dark .text-gray-900,
+        html.dark .text-gray-800,
+        html.dark .text-gray-600 {
+            color: #f3f4f6 !important;
+        }
+        html.dark .caixa-escolar {
+            color: #ef5350;
+        }
+        html.dark .data-ate {
+            color: #4ade80;
+        }
+    </style>
+</head>
+<body class="dark bg-gray-900 p-4 sm:p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-center text-gray-100 mb-8 mt-4">
+            Pesquisador de Licitações
+        <br>
+        <span class="block text-lg text-blue-400 mt-2">Encontre licitações por palavra-chave</span>
+        <div class="search-form">
+            <form method="POST" action="/" class="flex flex-col gap-3 items-stretch">
+                <div class="flex flex-col mb-2">
+                    <label for="site_select" class="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1">Origem dos dados:</label>
+                    <select id="site_select" name="site_select" class="p-2 text-sm border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-100">
+                        <option value="varginha">SRE Varginha</option>
+                        <option value="pocoscaldas">SRE Poços de Caldas</option>
+                    </select>
+                </div>
+                <div class="flex flex-col mb-2">
+                    <label for="search_query" class="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1">Palavra-chave:</label>
+                    <input
+                        type="text"
+                        name="search_query"
+                        id="search_query"
+                        placeholder="Digite a palavra-chave para buscar na especificação..."
+                        value="{{ search_query }}"
+                        class="p-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100"
+                    />
+                </div>
+                <div class="flex flex-col mb-2">
+                    <label for="max_pages" class="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1">Publicações:</label>
+                    <select name="max_pages" id="max_pages" class="p-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100">
+                        {% for i in range(1, 11) %}
+                            {% set label = i * 6 %}
+                            <option value="{{ i }}" {% if i == 1 %}selected{% endif %}>{{ label }} últimas publicações</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button
+                    type="submit"
+                    class="mt-2 px-4 py-2 text-sm bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-300 ease-in-out dark:bg-blue-800"
+                >
+                    Pesquisar
+                </button>
+            </form>
+        </div>
+
+        {% if cards %}
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6 text-center">
+                Resultados da Pesquisa
+                {% if site_select %}
+                    <span class="text-blue-400 text-lg font-semibold">
+                        - {{ 'SRE Varginha' if site_select == 'varginha' else 'SRE Poços de Caldas' }}
+                    </span>
+                {% endif %}
+            </h2>
+            <div class="card-grid">
+                {% for card in cards %}
+                    <div class="card-wrapper">
+                        {{ card.full_html_content | safe }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center text-gray-600 dark:text-gray-400 text-lg mt-8">Nenhum card encontrado para a sua pesquisa ou a página ainda não foi carregada.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

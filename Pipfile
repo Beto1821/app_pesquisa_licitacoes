@@ -1,0 +1,7 @@
+[dev-packages]
+
+[packages]
+flask = "*"
+
+[requires]
+python_version = "3.13.7"

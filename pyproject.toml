@@ -1,0 +1,12 @@
+[project]
+name = "app_pesquisa_licitacoes"
+version = "0.1.0"
+description = "App Pesquisa Licitações"
+authors = ["Beto1821 <beto1821uol.com.br>"]
+
+
+[tool.poetry.dependencies]
+python = "^3.13.7"
+flask = "*"
+
+[tool.poetry.dev-dependencies]
