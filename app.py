@@ -37,7 +37,7 @@ def index():
     if request.method == 'POST':
         site_selected = request.form.get('site_select', 'varginha')
         return redirect(url_for(site_selected))
-    return render_template('index.html', search_query='', cards=[])
+    return render_template('index.html', search_query='', cards=[], site_select='varginha', max_pages=1)
 
 
 # Rota para exibir cards da SRE Varginha
@@ -64,7 +64,8 @@ def varginha():
         'index.html',
         search_query=search_query,
         cards=filtered_cards,
-        site_select='varginha'
+        site_select='varginha',
+        max_pages=max_pages
     )
 
 
@@ -90,7 +91,8 @@ def pocoscaldas():
         'index.html',
         search_query=search_query,
         cards=filtered_cards,
-        site_select='pocoscaldas'
+        site_select='pocoscaldas',
+        max_pages=max_pages
     )
 
 

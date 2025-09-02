@@ -6,11 +6,19 @@
     <title>Pesquisar Licitações</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-      function toggleDarkMode() {
-        document.documentElement.classList.toggle('dark');
-      }
-    </script>
+        <script>
+            function toggleDarkMode() {
+                document.documentElement.classList.toggle('dark');
+            }
+            window.addEventListener('DOMContentLoaded', function() {
+                var form = document.querySelector('form');
+                var select = document.getElementById('site_select');
+                form.addEventListener('submit', function(e) {
+                    var rota = select.value;
+                    form.action = '/' + rota;
+                });
+            });
+        </script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -93,12 +101,12 @@
         <br>
         <span class="block text-lg text-blue-400 mt-2">Encontre licitações por palavra-chave</span>
         <div class="search-form">
-            <form method="POST" action="/" class="flex flex-col gap-3 items-stretch">
+            <form method="POST" action="{{ url_for(site_select or 'varginha') }}" class="flex flex-col gap-3 items-stretch">
                 <div class="flex flex-col mb-2">
                     <label for="site_select" class="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1">Origem dos dados:</label>
                     <select id="site_select" name="site_select" class="p-2 text-sm border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-100">
-                        <option value="varginha">SRE Varginha</option>
-                        <option value="pocoscaldas">SRE Poços de Caldas</option>
+                        <option value="varginha" {% if site_select == 'varginha' %}selected{% endif %}>SRE Varginha</option>
+                        <option value="pocoscaldas" {% if site_select == 'pocoscaldas' %}selected{% endif %}>SRE Poços de Caldas</option>
                     </select>
                 </div>
                 <div class="flex flex-col mb-2">
@@ -117,7 +125,7 @@
                     <select name="max_pages" id="max_pages" class="p-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100">
                         {% for i in range(1, 11) %}
                             {% set label = i * 6 %}
-                            <option value="{{ i }}" {% if i == 1 %}selected{% endif %}>{{ label }} últimas publicações</option>
+                            <option value="{{ i }}" {% if max_pages|int == i %}selected{% endif %}>{{ label }} últimas publicações</option>
                         {% endfor %}
                     </select>
                 </div>
