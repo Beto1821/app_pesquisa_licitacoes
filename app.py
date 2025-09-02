@@ -1,10 +1,7 @@
-# app.py
 import requests
-# import re
-# import os # Importar a biblioteca os
 from flask import Flask, render_template, request, redirect, url_for
-from backend.sre_varginha import scrape_website_cards_varginha
-from backend.sre_pocoscaldas import scrape_website_cards_pocoscaldas
+from sre_varginha import scrape_website_cards_varginha
+from sre_pocoscaldas import scrape_website_cards_pocoscaldas
 
 app = Flask(__name__)
 
@@ -97,3 +94,9 @@ def pocoscaldas():
         cards=filtered_cards,
         site_select='pocoscaldas'
     )
+
+
+if __name__ == "__main__":
+    import os
+    port = int(os.environ.get("PORT", 5050))
+    app.run(host="0.0.0.0", port=port)
