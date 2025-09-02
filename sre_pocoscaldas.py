@@ -29,7 +29,10 @@ def scrape_website_cards_pocoscaldas(max_pages_to_scrape=9):
             start_param=page_number * CARDS_PER_PAGE
         )
         if not html_content:
-            print(f"Não foi possível obter o conteúdo da página {page_number + 1}. Interrompendo.")
+            print(
+                f"Não foi possível obter o conteúdo da página "
+                f"{page_number + 1}. Interrompendo."
+            )
             return all_cards_data
         soup = BeautifulSoup(html_content, 'html.parser')
         current_page_articles = soup.find_all('article', class_='item')
