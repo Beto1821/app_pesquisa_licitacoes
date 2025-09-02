@@ -44,17 +44,9 @@ def scrape_website_cards_pocoscaldas(max_pages_to_scrape=9):
             break
         # Itera sobre cada artigo encontrado na página atual
         for article in current_page_articles:
-            leia_mais_link = None  # Inicializa a variável do link como None
-
-            # Procura uma tag <a> dentro do artigo que possua o atributo href
-            link_tag = article.find('a', href=True)
-            if link_tag:
-                href = link_tag['href']
-                leia_mais_link = href  # Copia exatamente o mesmo link do atributo href
-
-            # Adiciona o dicionário com o link encontrado à lista de resultados
+            card_html = str(article)
             all_cards_data.append({
-            'leia_mais_link': leia_mais_link
+                'full_html_content': card_html
             })
         page_number += 1
     return all_cards_data
