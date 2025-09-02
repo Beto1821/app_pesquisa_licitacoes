@@ -43,21 +43,20 @@ def scrape_website_cards_pocoscaldas(max_pages_to_scrape=9):
             )
             break
         for article in current_page_articles:
-            # Extrai o link do botão "Leia mais" e monta o link absoluto corretamente
+            leia_mais_link = None
             link_tag = article.find('a', href=True)
             if link_tag:
                 href = link_tag['href']
-                # Garante que o link sempre use o domínio da SRE
                 if href.startswith('http'):
-                    absolute_link = href
+                    leia_mais_link = href
                 else:
-                    # Remove qualquer domínio ou barra inicial
                     href_clean = href.lstrip('/')
-                    absolute_link = f'https://srepocoscaldas.educacao.mg.gov.br/{href_clean}'
-                link_tag['href'] = absolute_link
-            card_html = str(article)
+                    leia_mais_link = (
+                        'https://srepocoscaldas.educacao.mg.gov.br/'
+                        f'{href_clean}'
+                    )
             all_cards_data.append({
-                'full_html_content': card_html
+                'leia_mais_link': leia_mais_link
             })
         page_number += 1
     return all_cards_data
