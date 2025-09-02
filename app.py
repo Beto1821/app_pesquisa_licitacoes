@@ -79,12 +79,10 @@ def pocoscaldas():
     max_pages = int(request.form.get('max_pages', 1))
     cards = scrape_website_cards_pocoscaldas(max_pages)
     filtered_cards = []
-    # Filtra os cards pelo termo de busca
+    # Filtra os cards pelo termo de busca usando apenas a seção 'ESPECIFICAÇÃO DO OBJETO:'
     if request.method == 'POST' and search_query:
         for card in cards:
-            if search_query.lower() in card.get(
-                'full_html_content', ''
-            ).lower():
+            if search_query.lower() in card.get('especificacao_text', '').lower():
                 filtered_cards.append(card)
     else:
         filtered_cards = cards

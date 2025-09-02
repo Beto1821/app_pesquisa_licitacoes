@@ -143,6 +143,14 @@
                 {% for card in cards %}
                     <div class="card-wrapper">
                         {{ card.full_html_content | safe }}
+                        {% if site_select == 'pocoscaldas' and card.leia_mais_link %}
+                            {% set link = card.leia_mais_link %}
+                            {% if link.startswith('/') %}
+                                <a href="https://srepocoscaldas.educacao.mg.gov.br{{ link }}" target="_blank" class="text-blue-600 underline">Leia mais</a>
+                            {% else %}
+                                <a href="{{ link }}" target="_blank" class="text-blue-600 underline">Leia mais</a>
+                            {% endif %}
+                        {% endif %}
                     </div>
                 {% endfor %}
             </div>
