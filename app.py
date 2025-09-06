@@ -2,6 +2,7 @@ import requests
 from flask import Flask, render_template, request, redirect, url_for
 from sre_varginha import scrape_website_cards_varginha
 from sre_pocoscaldas import scrape_website_cards_pocoscaldas
+from sre_itajuba import scrape_website_cards_itajuba
 
 app = Flask(__name__)
 
@@ -95,6 +96,30 @@ def pocoscaldas():
         max_pages=max_pages
     )
 
+# Rota para exibir cards da SRE Itajubá
+@app.route('/itajuba', methods=['GET', 'POST'])
+def itajuba():
+    """
+    Exibe cards de licitações da SRE Itajubá,
+    com filtro por termo de busca.
+    """
+    search_query = request.form.get('search_query', '')
+    # Ignora o filtro 'Publicações' (max_pages) para Itajubá, sempre busca todas as publicações
+    cards = scrape_website_cards_itajuba()
+    filtered_cards = []
+    # Filtra os cards pelo termo de busca usando apenas a seção 'ESPECIFICAÇÃO DO OBJETO:'
+    if request.method == 'POST' and search_query:
+        for card in cards:
+            if search_query.lower() in card.get('specification_text', '').lower():
+                filtered_cards.append(card)
+    else:
+        filtered_cards = cards
+    return render_template(
+        'index.html',
+        search_query=search_query,
+        cards=filtered_cards,
+        site_select='itajuba'
+    )
 
 if __name__ == "__main__":
     import os

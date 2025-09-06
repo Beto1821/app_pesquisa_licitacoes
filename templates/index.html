@@ -107,6 +107,7 @@
                     <select id="site_select" name="site_select" class="p-2 text-sm border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-100">
                         <option value="varginha" {% if site_select == 'varginha' %}selected{% endif %}>SRE Varginha</option>
                         <option value="pocoscaldas" {% if site_select == 'pocoscaldas' %}selected{% endif %}>SRE Poços de Caldas</option>
+                        <option value="itajuba" {% if site_select == 'itajuba' %}selected{% endif %}>SRE Itajubá</option>
                     </select>
                 </div>
                 <div class="flex flex-col mb-2">
@@ -121,13 +122,15 @@
                     />
                 </div>
                 <div class="flex flex-col mb-2">
-                    <label for="max_pages" class="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1">Publicações:</label>
-                    <select name="max_pages" id="max_pages" class="p-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100">
-                        {% for i in range(1, 11) %}
-                            {% set label = i * 6 %}
-                            <option value="{{ i }}" {% if max_pages|int == i %}selected{% endif %}>{{ label }} últimas publicações</option>
-                        {% endfor %}
-                    </select>
+    {% if max_pages is defined %}
+                        <label for="max_pages">Publicações:</label>
+                        <select name="max_pages" id="max_pages" class="p-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100">
+                            {% for i in range(1, 11) %}
+                                {% set label = i * 6 %}
+                                <option value="{{ i }}" {% if max_pages|int == i %}selected{% endif %}>{{ label }} últimas publicações</option>
+                            {% endfor %}
+                        </select>
+    {% endif %}
                 </div>
                 <button
                     type="submit"
@@ -140,12 +143,18 @@
 
         {% if cards %}
             <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6 text-center">
-                Resultados da Pesquisa
-                {% if site_select %}
-                    <span class="text-blue-400 text-lg font-semibold">
-                        - {{ 'SRE Varginha' if site_select == 'varginha' else 'SRE Poços de Caldas' }}
-                    </span>
-                {% endif %}
+                    Resultados da Pesquisa - SRE 
+                    {% if site_select == 'varginha' %}Varginha
+                    {% elif site_select == 'pocoscaldas' %}Poços de Caldas
+                    {% elif site_select == 'itajuba' %}Itajubá
+                    {% else %}Poços de Caldas
+                    {% endif %}
+                    </h2>
+                    {% if site_select %}
+                        <span class="text-blue-400 text-lg font-semibold">
+                            - {{ site_select }}
+                        </span>
+                    {% endif %}
             </h2>
             <div class="card-grid">
                 {% for card in cards %}
