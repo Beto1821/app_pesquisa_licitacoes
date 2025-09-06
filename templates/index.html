@@ -14,6 +14,7 @@
                 var form = document.querySelector('form');
                 var select = document.getElementById('site_select');
                 var publicacoesDiv = document.getElementById('publicacoes-div');
+                var modal = document.getElementById('itajuba-modal');
                 function togglePublicacoes() {
                     if (select.value === 'itajuba') {
                         publicacoesDiv.style.display = 'none';
@@ -26,6 +27,12 @@
                 form.addEventListener('submit', function(e) {
                     var rota = select.value;
                     form.action = '/' + rota;
+                    if (select.value === 'itajuba') {
+                        // Exibe o modal de processamento
+                        if (modal) {
+                            modal.style.display = 'flex';
+                        }
+                    }
                 });
             });
         </script>
@@ -105,6 +112,14 @@
     </style>
 </head>
 <body class="dark bg-gray-900 p-4 sm:p-8">
+    <!-- Modal de processamento para SRE Itajubá -->
+    <div id="itajuba-modal" style="display:none; position:fixed; z-index:9999; top:0; left:0; width:100vw; height:100vh; background:rgba(30,41,59,0.85); align-items:center; justify-content:center;">
+        <div style="background:#fff; color:#222; padding:2rem 2.5rem; border-radius:1rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); font-size:1.3rem; font-weight:600; text-align:center;">
+            <span class="block mb-2 animate-spin" style="font-size:2.5rem;">⏳</span>
+            Processando dados da SRE Itajubá...<br>
+            Por favor, aguarde.
+        </div>
+    </div>
     <div class="max-w-4xl mx-auto">
         <h1 class="text-3xl sm:text-4xl font-extrabold text-center text-gray-100 mb-8 mt-4">
             Pesquisador de Licitações
