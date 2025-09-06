@@ -50,17 +50,34 @@ def varginha():
     """
     search_query = request.form.get('search_query', '')
     max_pages = int(request.form.get('max_pages', 1))
+    from datetime import datetime
     cards = scrape_website_cards_varginha(max_pages)
     filtered_cards = []
-    # Filtra os cards pelo termo de busca
-    if request.method == 'POST' and search_query:
+    # Filtra os cards pelo termo de busca e prazo
+    import re
+    def prazo_maior_que_hoje(card):
+        # Tenta extrair a data de todos os campos possíveis
+        import re
+        data_sources = [card.get('data_ate'), card.get('prazo'), card.get('full_html_content', '')]
+        for source in data_sources:
+            if not source:
+                continue
+            match = re.search(r'(\d{2}/\d{2}/\d{4})', source)
+            if match:
+                try:
+                    data_card = datetime.strptime(match.group(1), '%d/%m/%Y')
+                    if data_card >= datetime.now().replace(hour=0, minute=0, second=0, microsecond=0):
+                        return True
+                except Exception:
+                    continue
+        return False
+
+    if request.method == 'POST':
         for card in cards:
-            if search_query.lower() in card.get(
-                'full_html_content', ''
-            ).lower():
+            if (not search_query or search_query.lower() in card.get('full_html_content', '').lower()) and prazo_maior_que_hoje(card):
                 filtered_cards.append(card)
     else:
-        filtered_cards = cards
+        filtered_cards = [card for card in cards if prazo_maior_que_hoje(card)]
     return render_template(
         'index.html',
         search_query=search_query,
@@ -79,15 +96,32 @@ def pocoscaldas():
     """
     search_query = request.form.get('search_query', '')
     max_pages = int(request.form.get('max_pages', 1))
+    from datetime import datetime
     cards = scrape_website_cards_pocoscaldas(max_pages)
     filtered_cards = []
-    # Filtra os cards pelo termo de busca usando apenas a seção 'ESPECIFICAÇÃO DO OBJETO:'
-    if request.method == 'POST' and search_query:
+    import re
+    def prazo_maior_que_hoje(card):
+        import re
+        data_sources = [card.get('data_ate'), card.get('prazo'), card.get('full_html_content', '')]
+        for source in data_sources:
+            if not source:
+                continue
+            match = re.search(r'(\d{2}/\d{2}/\d{4})', source)
+            if match:
+                try:
+                    data_card = datetime.strptime(match.group(1), '%d/%m/%Y')
+                    if data_card >= datetime.now().replace(hour=0, minute=0, second=0, microsecond=0):
+                        return True
+                except Exception:
+                    continue
+        return False
+
+    if request.method == 'POST':
         for card in cards:
-            if search_query.lower() in card.get('especificacao_text', '').lower():
+            if (not search_query or search_query.lower() in card.get('especificacao_text', '').lower()) and prazo_maior_que_hoje(card):
                 filtered_cards.append(card)
     else:
-        filtered_cards = cards
+        filtered_cards = [card for card in cards if prazo_maior_que_hoje(card)]
     return render_template(
         'index.html',
         search_query=search_query,
@@ -105,15 +139,32 @@ def itajuba():
     """
     search_query = request.form.get('search_query', '')
     # Ignora o filtro 'Publicações' (max_pages) para Itajubá, sempre busca todas as publicações
+    from datetime import datetime
+    import re
     cards = scrape_website_cards_itajuba()
     filtered_cards = []
-    # Filtra os cards pelo termo de busca usando apenas a seção 'ESPECIFICAÇÃO DO OBJETO:'
-    if request.method == 'POST' and search_query:
+    def prazo_maior_que_hoje(card):
+        import re
+        data_sources = [card.get('data_ate'), card.get('prazo'), card.get('full_html_content', '')]
+        for source in data_sources:
+            if not source:
+                continue
+            match = re.search(r'(\d{2}/\d{2}/\d{4})', source)
+            if match:
+                try:
+                    data_card = datetime.strptime(match.group(1), '%d/%m/%Y')
+                    if data_card >= datetime.now().replace(hour=0, minute=0, second=0, microsecond=0):
+                        return True
+                except Exception:
+                    continue
+        return False
+
+    if request.method == 'POST':
         for card in cards:
-            if search_query.lower() in card.get('specification_text', '').lower():
+            if (not search_query or search_query.lower() in card.get('specification_text', '').lower()) and prazo_maior_que_hoje(card):
                 filtered_cards.append(card)
     else:
-        filtered_cards = cards
+        filtered_cards = [card for card in cards if prazo_maior_que_hoje(card)]
     return render_template(
         'index.html',
         search_query=search_query,
