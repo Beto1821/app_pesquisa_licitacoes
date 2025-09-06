@@ -1,14 +1,14 @@
 # ⚠️ **Protótipo em desenvolvimento REV 03!**
 
-## Versões e Evolução do Projeto
-##
-## | Revisão | Data         | SREs Integradas         | Novidades principais                                 |
-## |---------|--------------|------------------------|------------------------------------------------------|
-## | REV 01  | 2025-09-01   | Varginha               | Primeira versão funcional: busca e cards SRE Varginha |
-## | REV 02  | 2025-09-02   | Varginha, Poços Caldas | Adicionada SRE Poços de Caldas                       |
-## | REV 03  | 2025-09-06   | Varginha, Poços Caldas, Itajubá | Adicionada SRE Itajubá, modal de processamento |
-##
-# > **Versão atual:** REV 03 — SRE Varginha, Poços de Caldas e Itajubá integradas
+**Versões e Evolução do Projeto
+
+| Revisão | Data         | SREs Integradas         | Novidades principais                                 |
+|---------|--------------|------------------------|------------------------------------------------------|
+| REV 01  | 2025-09-01   | Varginha               | Primeira versão funcional: busca e cards SRE Varginha |
+| REV 02  | 2025-09-02   | Varginha, Poços Caldas | Adicionada SRE Poços de Caldas                       |
+| REV 03  | 2025-09-06   | Varginha, Poços Caldas, Itajubá | Adicionada SRE Itajubá, modal de processamento |
+
+## Versão atual:** REV 03 — SRE Varginha, Poços de Caldas e Itajubá integradas
 
 Este projeto está em fase inicial e irá integrar os dados das SREs de Varginha, Poços de Caldas, Campo Belo, Pouso Alegre, Itajubá e Caxambu para monitoramento e participação nos processos de caixa escolar.
 
