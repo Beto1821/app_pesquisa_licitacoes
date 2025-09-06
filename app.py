@@ -100,8 +100,8 @@ def pocoscaldas():
     cards = scrape_website_cards_pocoscaldas(max_pages)
     filtered_cards = []
     import re
+
     def prazo_maior_que_hoje(card):
-        import re
         data_sources = [card.get('data_ate'), card.get('prazo'), card.get('full_html_content', '')]
         for source in data_sources:
             if not source:
@@ -118,10 +118,14 @@ def pocoscaldas():
 
     if request.method == 'POST':
         for card in cards:
-            if (not search_query or search_query.lower() in card.get('especificacao_text', '').lower()) and prazo_maior_que_hoje(card):
+            if (
+                not search_query
+                or search_query.lower() in card.get('especificacao_text', '').lower()
+                or search_query.lower() in card.get('full_html_content', '').lower()
+            ):
                 filtered_cards.append(card)
     else:
-        filtered_cards = [card for card in cards if prazo_maior_que_hoje(card)]
+        filtered_cards = cards[:]
     return render_template(
         'index.html',
         search_query=search_query,
