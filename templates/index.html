@@ -27,11 +27,22 @@
                 form.addEventListener('submit', function(e) {
                     var rota = select.value;
                     form.action = '/' + rota;
-                    if (select.value === 'itajuba') {
-                        // Exibe o modal de processamento
-                        if (modal) {
-                            modal.style.display = 'flex';
+                    // Exibe o modal de processamento para todas as SREs
+                    if (modal) {
+                        // Atualiza o texto do modal conforme a SRE
+                        var modalText = 'Processando dados...';
+                        if (select.value === 'varginha') {
+                            modalText = 'Processando dados da SRE Varginha...';
+                        } else if (select.value === 'pocoscaldas') {
+                            modalText = 'Processando dados da SRE Poços de Caldas...';
+                        } else if (select.value === 'itajuba') {
+                            modalText = 'Processando dados da SRE Itajubá...';
                         }
+                        var modalContent = modal.querySelector('div');
+                        if (modalContent) {
+                            modalContent.innerHTML = '<span class="block mb-2 animate-spin" style="font-size:2.5rem;">⏳</span>' + modalText + '<br>Por favor, aguarde.';
+                        }
+                        modal.style.display = 'flex';
                     }
                 });
             });
