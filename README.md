@@ -14,9 +14,9 @@
 Este projeto está em fase inicial e irá integrar os dados das SREs de Varginha, Poços de Caldas, Campo Belo, Pouso Alegre, Itajubá e Caxambu para monitoramento e participação nos processos de caixa escolar.
 
 
-## Novidade: Integração com SRE Itajubá
+## Novidade: Integração com SRE Pouso Alegre
 
-Agora o sistema também permite pesquisar licitações diretamente da SRE Itajubá! Ao selecionar "SRE Itajubá" na origem dos dados e clicar em "Pesquisar", um aviso/modal de processamento será exibido enquanto os dados são coletados. Assim que a busca termina, os resultados são exibidos normalmente.
+Agora o sistema também permite pesquisar licitações diretamente da SRE Pouso Alegre! Ao selecionar "SRE Pouso Alegre" na origem dos dados e clicar em "Pesquisar", um aviso/modal de processamento será exibido enquanto os dados são coletados. Assim que a busca termina, os resultados são exibidos normalmente.
 
 O maior desafio é unificar informações de diferentes SREs, pois cada uma possui estrutura e padrão próprios, dificultando a padronização dos dados.
 
