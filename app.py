@@ -3,8 +3,37 @@ from flask import Flask, render_template, request, redirect, url_for
 from sre_varginha import scrape_website_cards_varginha
 from sre_pocoscaldas import scrape_website_cards_pocoscaldas
 from sre_itajuba import scrape_website_cards_itajuba
+from sre_pousoalegre import scrape_website_cards_pousoalegre
 
 app = Flask(__name__)
+
+# Rota para exibir cards da SRE Pouso Alegre
+
+
+@app.route('/pousoalegre', methods=['GET', 'POST'])
+def pousoalegre():
+    """
+    Exibe cards de licitações da SRE Pouso Alegre,
+    com filtro por termo de busca.
+    """
+    search_query = request.form.get('search_query', '')
+    cards = scrape_website_cards_pousoalegre()
+    filtered_cards = []
+    if request.method == 'POST':
+        for card in cards:
+            search = search_query.lower()
+            content = card.get('full_html_content', '').lower()
+            if not search_query or search in content:
+                filtered_cards.append(card)
+    else:
+        filtered_cards = cards[:]
+    return render_template(
+        'index.html',
+        search_query=search_query,
+        cards=filtered_cards,
+        site_select='pousoalegre',
+        max_pages=1
+    )
 
 
 # URL base do site de licitações
@@ -175,6 +204,7 @@ def itajuba():
         cards=filtered_cards,
         site_select='itajuba'
     )
+
 
 if __name__ == "__main__":
     import os

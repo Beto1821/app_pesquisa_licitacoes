@@ -16,7 +16,7 @@
                 var publicacoesDiv = document.getElementById('publicacoes-div');
                 var modal = document.getElementById('itajuba-modal');
                 function togglePublicacoes() {
-                    if (select.value === 'itajuba') {
+                    if (select.value === 'itajuba' || select.value === 'pousoalegre') {
                         publicacoesDiv.style.display = 'none';
                     } else {
                         publicacoesDiv.style.display = '';
@@ -144,6 +144,7 @@
                         <option value="varginha" {% if site_select == 'varginha' %}selected{% endif %}>SRE Varginha</option>
                         <option value="pocoscaldas" {% if site_select == 'pocoscaldas' %}selected{% endif %}>SRE Poços de Caldas</option>
                         <option value="itajuba" {% if site_select == 'itajuba' %}selected{% endif %}>SRE Itajubá</option>
+                        <option value="pousoalegre" {% if site_select == 'pousoalegre' %}selected{% endif %}>SRE Pouso Alegre</option>
                     </select>
                 </div>
                 <div class="flex flex-col mb-2">
@@ -183,6 +184,7 @@
                     {% if site_select == 'varginha' %}Varginha
                     {% elif site_select == 'pocoscaldas' %}Poços de Caldas
                     {% elif site_select == 'itajuba' %}Itajubá
+                    {% elif site_select == 'pousoalegre' %}Pouso Alegre
                     {% else %}Poços de Caldas
                     {% endif %}
                     </h2>
