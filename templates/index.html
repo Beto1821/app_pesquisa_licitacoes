@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pesquisar Licitações</title>
+    <title>Pesquisa Caixa Escolar</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
         <script>
@@ -132,10 +132,12 @@
         </div>
     </div>
     <div class="max-w-4xl mx-auto">
-        <h1 class="text-3xl sm:text-4xl font-extrabold text-center text-gray-100 mb-8 mt-4">
-            Pesquisador de Licitações
-        <br>
-        <span class="block text-lg text-blue-400 mt-2">Encontre licitações por palavra-chave</span>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-center text-gray-100 mb-8 mt-4 flex items-center justify-center gap-3">
+            <img src="/static/lapis.png" alt="Lápis" style="height:4em; width:auto; display:inline; vertical-align:middle;"/>
+            <span>Pesquisa Caixa Escolar</span>
+            <img src="/static/lapis.png" alt="Lápis" style="height:4em; width:auto; display:inline; vertical-align:middle;"/>
+        </h1>
+        <span class="block text-lg text-blue-400 mt-2 text-center">Encontre licitações por palavra-chave</span>
         <div class="search-form">
             <form method="POST" action="{{ url_for(site_select or 'varginha') }}" class="flex flex-col gap-3 items-stretch">
                 <div class="flex flex-col mb-2">
@@ -214,7 +216,10 @@
         {% endif %}
     </div>
     <footer style="text-align: center; margin-top: 20px; color: #888;">
-        Protótipo construído por Adalberto Ribeiro <br>
+        <img src="/static/lapis.png" alt="Lápis" style="height:2.6em; width:auto; display:inline; vertical-align:middle; margin-right:0.5em;"/>
+        Protótipo construído por Adalberto Ribeiro
+        <img src="/static/lapis.png" alt="Lápis" style="height:2.6em; width:auto; display:inline; vertical-align:middle; margin-left:0.5em;"/>
+        <br>
         <a href="https://www.linkedin.com/in/adalberto-ramos-ribeiro-344092107/" target="_blank" style="color:#4fa3f7">Contato</a>
     </footer>
 </body>
