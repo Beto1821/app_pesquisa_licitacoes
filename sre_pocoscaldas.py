@@ -44,6 +44,9 @@ def scrape_website_cards_pocoscaldas(max_pages_to_scrape=9):
             break
         # Itera sobre cada artigo encontrado na página atual
         for article in current_page_articles:
+            readmore = article.find('p', class_='readmore')
+            if readmore:
+                readmore.decompose()
             card_html = str(article)
             # Extrai o texto da seção 'ESPECIFICAÇÃO DO OBJETO:'
             especificacao_text = ''
