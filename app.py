@@ -1,4 +1,5 @@
 import requests
+import re
 from flask import Flask, render_template, request, redirect, url_for
 from sre_varginha import scrape_website_cards_varginha
 from sre_pocoscaldas import scrape_website_cards_pocoscaldas
@@ -83,10 +84,10 @@ def varginha():
     cards = scrape_website_cards_varginha(max_pages)
     filtered_cards = []
     # Filtra os cards pelo termo de busca e prazo
-    import re
+    # import re removido (já está no topo)
     def prazo_maior_que_hoje(card):
         # Tenta extrair a data de todos os campos possíveis
-        import re
+    # import re removido (já está no topo)
         data_sources = [card.get('data_ate'), card.get('prazo'), card.get('full_html_content', '')]
         for source in data_sources:
             if not source:
@@ -128,7 +129,7 @@ def pocoscaldas():
     from datetime import datetime
     cards = scrape_website_cards_pocoscaldas(max_pages)
     filtered_cards = []
-    import re
+    # import re removido (já está no topo)
 
     def prazo_maior_que_hoje(card):
         data_sources = [card.get('data_ate'), card.get('prazo'), card.get('full_html_content', '')]
