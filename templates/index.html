@@ -82,7 +82,8 @@
             font-style: italic;
         }
         .search-form {
-            background-color: #ffffff;
+            /* background-color: #ffffff; */
+            background-color: transparent;
             padding: 1.5rem;
             border-radius: 0.5rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
@@ -122,7 +123,7 @@
         }
     </style>
 </head>
-<body class="dark bg-gray-900 p-4 sm:p-8">
+<body class="bg-black text-white font-sans antialiased p-4 sm:p-8">
     <!-- Modal de processamento para SRE Itajubá -->
     <div id="itajuba-modal" style="display:none; position:fixed; z-index:9999; top:0; left:0; width:100vw; height:100vh; background:rgba(30,41,59,0.85); align-items:center; justify-content:center;">
         <div style="background:#fff; color:#222; padding:2rem 2.5rem; border-radius:1rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); font-size:1.3rem; font-weight:600; text-align:center;">
@@ -132,53 +133,55 @@
         </div>
     </div>
     <div class="max-w-4xl mx-auto">
-        <h1 class="text-3xl sm:text-4xl font-extrabold text-center text-gray-100 mb-8 mt-4 flex items-center justify-center gap-3">
-            <img src="/static/lapis.png" alt="Lápis" style="height:4em; width:auto; display:inline; vertical-align:middle;"/>
-            <span>Pesquisa Caixa Escolar</span>
-            <img src="/static/lapis.png" alt="Lápis" style="height:4em; width:auto; display:inline; vertical-align:middle;"/>
-        </h1>
-        <span class="block text-lg text-blue-400 mt-2 text-center">Encontre licitações por palavra-chave</span>
+        <header class="bg-black py-4 px-6 flex justify-center items-center">
+            <img src="/static/lapis.png" alt="Lápis" style="height:5em; width:auto; display:inline; vertical-align:middle;"/>
+            <h1 class="text-3xl font-bold text-white mx-4">Pesquisa Caixa Escolar</h1>
+            <img src="/static/lapis.png" alt="Lápis" style="height:5em; width:auto; display:inline; vertical-align:middle;"/>
+        </header>
+        <div class="max-w-4xl mx-auto">
+            <span class="block text-lg text-yellow-400 mt-6 mb-2 text-center">Encontre licitações por palavra-chave</span>
         <div class="search-form">
-            <form method="POST" action="{{ url_for(site_select or 'varginha') }}" class="flex flex-col gap-3 items-stretch">
-                <div class="flex flex-col mb-2">
-                    <label for="site_select" class="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1">Origem dos dados:</label>
-                    <select id="site_select" name="site_select" class="p-2 text-sm border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-100">
-                        <option value="varginha" {% if site_select == 'varginha' %}selected{% endif %}>SRE Varginha</option>
-                        <option value="pocoscaldas" {% if site_select == 'pocoscaldas' %}selected{% endif %}>SRE Poços de Caldas</option>
-                        <option value="itajuba" {% if site_select == 'itajuba' %}selected{% endif %}>SRE Itajubá</option>
-                        <option value="pousoalegre" {% if site_select == 'pousoalegre' %}selected{% endif %}>SRE Pouso Alegre</option>
-                    </select>
-                </div>
-                <div class="flex flex-col mb-2">
-                    <label for="search_query" class="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1">Palavra-chave:</label>
-                    <input
-                        type="text"
-                        name="search_query"
-                        id="search_query"
-                        placeholder="Digite a palavra-chave para buscar na especificação..."
-                        value="{{ search_query }}"
-                        class="p-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100"
-                    />
-                </div>
-                <div class="flex flex-col mb-2" id="publicacoes-div">
-    {% if max_pages is defined %}
-                        <label for="max_pages" class="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1">Publicações:</label>
-                        <select name="max_pages" id="max_pages" class="p-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100">
-                            {% for i in range(1, 11) %}
-                                {% set label = i * 6 %}
-                                <option value="{{ i }}" {% if max_pages|int == i %}selected{% endif %}>{{ label }} últimas publicações</option>
-                            {% endfor %}
+        <section class="bg-black p-6 rounded-lg shadow-lg mb-8">
+                <form method="POST" action="{{ url_for(site_select or 'varginha') }}" class="flex flex-col gap-3 items-stretch">
+                    <div class="mb-4">
+                        <label for="site_select" class="block text-gray-300 text-sm font-bold mb-2">Origem dos dados:</label>
+                        <select id="site_select" name="site_select" class="block w-full bg-gray-700 text-white border border-gray-600 rounded py-2 px-3 mb-4 focus:outline-none focus:border-yellow-400">
+                            <option value="varginha" {% if site_select == 'varginha' %}selected{% endif %}>SRE Varginha</option>
+                            <option value="pocoscaldas" {% if site_select == 'pocoscaldas' %}selected{% endif %}>SRE Poços de Caldas</option>
+                            <option value="itajuba" {% if site_select == 'itajuba' %}selected{% endif %}>SRE Itajubá</option>
+                            <option value="pousoalegre" {% if site_select == 'pousoalegre' %}selected{% endif %}>SRE Pouso Alegre</option>
                         </select>
-    {% endif %}
-                </div>
-                <button
-                    type="submit"
-                    class="mt-2 px-4 py-2 text-sm bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-300 ease-in-out dark:bg-blue-800"
-                >
-                    Pesquisar
-                </button>
-            </form>
-        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="search_query" class="block text-gray-300 text-sm font-bold mb-2">Palavra-chave:</label>
+                        <input
+                            type="text"
+                            name="search_query"
+                            id="search_query"
+                            placeholder="Digite a palavra-chave para buscar na especificação..."
+                            value="{{ search_query }}"
+                            class="block w-full bg-gray-700 text-white border border-gray-600 rounded py-2 px-3 mb-4 focus:outline-none focus:border-yellow-400"
+                        />
+                    </div>
+                    <div class="mb-4" id="publicacoes-div">
+        {% if max_pages is defined %}
+                            <label for="max_pages" class="block text-gray-300 text-sm font-bold mb-2">Publicações:</label>
+                            <select name="max_pages" id="max_pages" class="block w-full bg-gray-700 text-white border border-gray-600 rounded py-2 px-3 mb-4 focus:outline-none focus:border-yellow-400">
+                                {% for i in range(1, 11) %}
+                                    {% set label = i * 6 %}
+                                    <option value="{{ i }}" {% if max_pages|int == i %}selected{% endif %}>{{ label }} últimas publicações</option>
+                                {% endfor %}
+                            </select>
+        {% endif %}
+                    </div>
+                    <button
+                        type="submit"
+                        class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded-lg w-full"
+                    >
+                        Pesquisar
+                    </button>
+                </form>
+            </section>
 
         {% if cards %}
             <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6 text-center">
@@ -197,30 +200,31 @@
                     {% endif %}
             </h2>
             <div class="card-grid">
-                {% for card in cards %}
-                    <div class="card-wrapper">
-                        {{ card.full_html_content | safe }}
-                        {% if site_select == 'pocoscaldas' and card.leia_mais_link %}
-                            {% set link = card.leia_mais_link %}
-                            {% if link.startswith('/') %}
-                                <a href="https://srepocoscaldas.educacao.mg.gov.br{{ link }}" target="_blank" class="text-blue-600 underline">Leia mais</a>
-                            {% else %}
-                                <a href="{{ link }}" target="_blank" class="text-blue-600 underline">Leia mais</a>
+                    {% for card in cards %}
+                        <div class="bg-gray-900 p-6 rounded-lg shadow-lg mb-4">
+                            {{ card.full_html_content | safe }}
+                            {% if site_select == 'pocoscaldas' and card.leia_mais_link %}
+                                {% set link = card.leia_mais_link %}
+                                {% if link.startswith('/') %}
+                                    <a href="https://srepocoscaldas.educacao.mg.gov.br{{ link }}" target="_blank" class="text-yellow-400 underline">Leia mais</a>
+                                {% else %}
+                                    <a href="{{ link }}" target="_blank" class="text-yellow-400 underline">Leia mais</a>
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
-                    </div>
-                {% endfor %}
+                        </div>
+                    {% endfor %}
             </div>
         {% else %}
             <p class="text-center text-gray-600 dark:text-gray-400 text-lg mt-8">Nenhum card encontrado para a sua pesquisa ou a página ainda não foi carregada.</p>
         {% endif %}
     </div>
     <footer style="text-align: center; margin-top: 20px; color: #888;">
-        <img src="/static/lapis.png" alt="Lápis" style="height:2.6em; width:auto; display:inline; vertical-align:middle; margin-right:0.5em;"/>
-        Protótipo construído por Adalberto Ribeiro
-        <img src="/static/lapis.png" alt="Lápis" style="height:2.6em; width:auto; display:inline; vertical-align:middle; margin-left:0.5em;"/>
-        <br>
-        <a href="https://www.linkedin.com/in/adalberto-ramos-ribeiro-344092107/" target="_blank" style="color:#4fa3f7">Contato</a>
-    </footer>
+        <footer class="bg-black py-4 px-6 flex justify-center items-center mt-8 text-gray-400">
+            <img src="/static/lapis.png" alt="Lápis" style="height:2.2em; width:auto; display:inline; vertical-align:middle; margin-right:0.5em;"/>
+            <span>Protótipo construído por Adalberto Ribeiro</span>
+            <img src="/static/lapis.png" alt="Lápis" style="height:2.2em; width:auto; display:inline; vertical-align:middle; margin-left:0.5em;"/>
+            <br>
+            <a href="https://www.linkedin.com/in/adalberto-ramos-ribeiro-344092107/" target="_blank" class="text-yellow-400 underline ml-2">Contato</a>
+        </footer>
 </body>
 </html>
