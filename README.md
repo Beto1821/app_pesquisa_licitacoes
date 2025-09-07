@@ -1,4 +1,4 @@
-# ⚠️ **Protótipo em desenvolvimento REV 03!**
+# ⚠️ **Protótipo em desenvolvimento REV 04!**
 
 **Versões e Evolução do Projeto
 
@@ -7,8 +7,9 @@
 | REV 01  | 2025-09-01   | Varginha               | Primeira versão funcional: busca e cards SRE Varginha |
 | REV 02  | 2025-09-02   | Varginha, Poços Caldas | Adicionada SRE Poços de Caldas                       |
 | REV 03  | 2025-09-06   | Varginha, Poços Caldas, Itajubá | Adicionada SRE Itajubá, modal de processamento |
+| REV 04  | 2025-09-06   | Varginha, Poços Caldas, Itajubá, Pouso Alegre | Adicionada SRE Pouso Alegre, scraping de tabelas |
 
-## Versão atual:** REV 03 — SRE Varginha, Poços de Caldas e Itajubá integradas
+## Versão atual:** REV 04 — SRE Varginha, Poços de Caldas, Itajubá e Pouso Alegre integradas
 
 Este projeto está em fase inicial e irá integrar os dados das SREs de Varginha, Poços de Caldas, Campo Belo, Pouso Alegre, Itajubá e Caxambu para monitoramento e participação nos processos de caixa escolar.
 
@@ -26,7 +27,7 @@ O protótipo está disponível via deploy Railway em:
 
 
 
-### Pesquisador de Licitações Escolares — REV 03
+### Pesquisador de Licitações Escolares — REV 04
 
 #### Linha do Tempo das Revisões
 
@@ -37,13 +38,15 @@ gantt
    section Releases
    REV 01 :done,  des1, 2025-09-01, 1d
    REV 02 :done,  des2, 2025-09-02, 1d
-   REV 03 :active, des3, 2025-09-06, 1d
+   REV 03 :done,  des3, 2025-09-06, 1d
+   REV 04 :active, des4, 2025-09-06, 1d
 ```
 
 **Resumo das revisões:**
 - **REV 01:** Primeira versão funcional, integração com SRE Varginha, busca e exibição de cards.
 - **REV 02:** Adicionada integração com SRE Poços de Caldas, melhorias de scraping e interface.
 - **REV 03:** Adicionada integração com SRE Itajubá, modal de processamento visual para buscas dessa origem.
+- **REV 04:** Adicionada integração com SRE Pouso Alegre, scraping de tabelas e cards customizados.
 
 
 Este projeto é um aplicativo web desenvolvido em Python utilizando Flask, BeautifulSoup4 e Requests. Ele permite pesquisar licitações diretamente dos sites das SREs (exemplo: Varginha-MG e Poços de Caldas-MG), exibindo os resultados em uma interface moderna com Tailwind CSS.
@@ -67,6 +70,7 @@ app_pesquisa_licitacoes/
 ├── sre_varginha.py
 ├── sre_pocoscaldas.py
 ├── sre_itajuba.py
+├── sre_pousoalegre.py
 ├── templates/
 │   └── index.html
 ├── .env (opcional, para variáveis locais)
@@ -116,14 +120,13 @@ app_pesquisa_licitacoes/
 6. **Testar a funcionalidade**
    - Digite uma palavra-chave na caixa de pesquisa e clique em "Pesquisar".
    - Selecione a origem dos dados desejada (Varginha, Poços de Caldas ou Itajubá).
-   - Para SRE Itajubá, um modal de "Processando dados da SRE Itajubá..." será exibido enquanto a busca é realizada. Aguarde até o carregamento dos resultados.
    - Os cards de licitações que contêm a palavra-chave na seção "ESPECIFICAÇÃO DO OBJETO:" serão exibidos.
 
 
 ## Observações
 
-- Os arquivos de scraping (`sre_varginha.py`, `sre_pocoscaldas.py` e `sre_itajuba.py`) estão na raiz do projeto.
-- Os imports no `app.py` usam `from sre_varginha import ...`, `from sre_pocoscaldas import ...` e `from sre_itajuba import ...`.
+- Os arquivos de scraping (`sre_varginha.py`, `sre_pocoscaldas.py`, `sre_itajuba.py` e `sre_pousoalegre`) estão na raiz do projeto.
+- Os imports no `app.py` usam `from sre_varginha import ...`, `from sre_pocoscaldas import ...`, `from sre_itajuba import ...` e `from sre_pousoalegre import`.
 - O Tailwind CSS é utilizado via CDN, não sendo necessário instalar nada adicional para o frontend.
 - O aplicativo é para uso em ambiente de desenvolvimento. Para produção, utilize um servidor WSGI adequado.
 - Para SRE Itajubá, o modal de processamento é exibido automaticamente ao clicar em "Pesquisar" e desaparece ao final da busca.
