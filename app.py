@@ -163,6 +163,7 @@ def pocoscaldas():
         max_pages=max_pages
     )
 
+
 # Rota para exibir cards da SRE Itajubá
 @app.route('/itajuba', methods=['GET', 'POST'])
 def itajuba():
@@ -173,11 +174,10 @@ def itajuba():
     search_query = request.form.get('search_query', '')
     # Ignora o filtro 'Publicações' (max_pages) para Itajubá, sempre busca todas as publicações
     from datetime import datetime
-    import re
     cards = scrape_website_cards_itajuba()
     filtered_cards = []
+
     def prazo_maior_que_hoje(card):
-        import re
         data_sources = [card.get('data_ate'), card.get('prazo'), card.get('full_html_content', '')]
         for source in data_sources:
             if not source:
