@@ -21,10 +21,10 @@ def pousoalegre():
     cards = scrape_website_cards_pousoalegre()
     filtered_cards = []
     if request.method == 'POST':
+        palavras = [p.strip() for p in search_query.lower().replace(',', ' ').split() if p.strip()]
         for card in cards:
-            search = search_query.lower()
-            content = card.get('full_html_content', '').lower()
-            if not search_query or search in content:
+            conteudo = card.get('full_html_content', '').lower()
+            if not palavras or any(p in conteudo for p in palavras):
                 filtered_cards.append(card)
     else:
         filtered_cards = cards[:]
@@ -103,8 +103,10 @@ def varginha():
         return False
 
     if request.method == 'POST':
+        palavras = [p.strip() for p in search_query.lower().replace(',', ' ').split() if p.strip()]
         for card in cards:
-            if (not search_query or search_query.lower() in card.get('full_html_content', '').lower()) and prazo_maior_que_hoje(card):
+            conteudo = card.get('full_html_content', '').lower()
+            if (not palavras or any(p in conteudo for p in palavras)) and prazo_maior_que_hoje(card):
                 filtered_cards.append(card)
     else:
         filtered_cards = [card for card in cards if prazo_maior_que_hoje(card)]
@@ -147,12 +149,11 @@ def pocoscaldas():
         return False
 
     if request.method == 'POST':
+        palavras = [p.strip() for p in search_query.lower().replace(',', ' ').split() if p.strip()]
         for card in cards:
-            if (
-                not search_query
-                or search_query.lower() in card.get('especificacao_text', '').lower()
-                or search_query.lower() in card.get('full_html_content', '').lower()
-            ):
+            conteudo1 = card.get('especificacao_text', '').lower()
+            conteudo2 = card.get('full_html_content', '').lower()
+            if not palavras or any(p in conteudo1 or p in conteudo2 for p in palavras):
                 filtered_cards.append(card)
     else:
         filtered_cards = cards[:]
@@ -194,8 +195,10 @@ def itajuba():
         return False
 
     if request.method == 'POST':
+        palavras = [p.strip() for p in search_query.lower().replace(',', ' ').split() if p.strip()]
         for card in cards:
-            if (not search_query or search_query.lower() in card.get('specification_text', '').lower()) and prazo_maior_que_hoje(card):
+            conteudo = card.get('specification_text', '').lower()
+            if (not palavras or any(p in conteudo for p in palavras)) and prazo_maior_que_hoje(card):
                 filtered_cards.append(card)
     else:
         filtered_cards = [card for card in cards if prazo_maior_que_hoje(card)]
