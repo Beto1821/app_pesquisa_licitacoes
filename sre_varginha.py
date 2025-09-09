@@ -17,10 +17,12 @@ def get_website_content_varginha(start_param=0):
         return None
 
 
-def scrape_website_cards_varginha(max_pages_to_scrape=9):
+def scrape_website_cards_varginha(max_pages_to_scrape=10):
+    from datetime import datetime
+    import re
     all_cards_data = []
     page_number = 0
-    while page_number < max_pages_to_scrape:
+    while page_number < 14:
         print(
             f"Raspando página: {page_number + 1} "
             f"(start={page_number * CARDS_PER_PAGE})"

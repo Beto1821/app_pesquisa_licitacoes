@@ -20,7 +20,7 @@ def get_website_content_pocoscaldas(start_param=0):
 def scrape_website_cards_pocoscaldas(max_pages_to_scrape=9):
     all_cards_data = []
     page_number = 0
-    while page_number < max_pages_to_scrape:
+    while page_number < 10:
         print(
             f"Raspando página: {page_number + 1} "
             f"(start={page_number * CARDS_PER_PAGE})"

@@ -16,7 +16,7 @@
                 var publicacoesDiv = document.getElementById('publicacoes-div');
                 var modal = document.getElementById('itajuba-modal');
                 function togglePublicacoes() {
-                    if (select.value === 'itajuba' || select.value === 'pousoalegre') {
+                    if (select.value === 'itajuba' || select.value === 'pousoalegre' || select.value === 'caxambu' || select.value === 'varginha') {
                         publicacoesDiv.style.display = 'none';
                     } else {
                         publicacoesDiv.style.display = '';
@@ -150,6 +150,7 @@
                             <option value="pocoscaldas" {% if site_select == 'pocoscaldas' %}selected{% endif %}>SRE Poços de Caldas</option>
                             <option value="itajuba" {% if site_select == 'itajuba' %}selected{% endif %}>SRE Itajubá</option>
                             <option value="pousoalegre" {% if site_select == 'pousoalegre' %}selected{% endif %}>SRE Pouso Alegre</option>
+                            <option value="caxambu" {% if site_select == 'caxambu' %}selected{% endif %}>SRE Caxambu</option>
                         </select>
                     </div>
                     <div class="mb-4">
@@ -163,8 +164,8 @@
                             class="block w-full bg-gray-700 text-white border border-gray-600 rounded py-2 px-3 mb-4 focus:outline-none focus:border-yellow-400"
                         />
                     </div>
-                    <div class="mb-4" id="publicacoes-div">
-        {% if max_pages is defined %}
+                    <div class="mb-4" id="publicacoes-div" {% if site_select == 'caxambu' or site_select == 'varginha' or site_select == 'pocoscaldas' %}style="display:none;"{% endif %}>
+{% if max_pages is defined and site_select != 'caxambu' and site_select != 'varginha' and site_select != 'pocoscaldas' %}
                             <label for="max_pages" class="block text-gray-300 text-sm font-bold mb-2">Publicações:</label>
                             <select name="max_pages" id="max_pages" class="block w-full bg-gray-700 text-white border border-gray-600 rounded py-2 px-3 mb-4 focus:outline-none focus:border-yellow-400">
                                 {% for i in range(1, 11) %}
@@ -172,7 +173,7 @@
                                     <option value="{{ i }}" {% if max_pages|int == i %}selected{% endif %}>{{ label }} últimas publicações</option>
                                 {% endfor %}
                             </select>
-        {% endif %}
+{% endif %}
                     </div>
                     <button
                         type="submit"
@@ -190,6 +191,7 @@
                     {% elif site_select == 'pocoscaldas' %}Poços de Caldas
                     {% elif site_select == 'itajuba' %}Itajubá
                     {% elif site_select == 'pousoalegre' %}Pouso Alegre
+                    {% elif site_select == 'caxambu' %}Caxambu
                     {% else %}Poços de Caldas
                     {% endif %}
                     </h2>
@@ -215,7 +217,7 @@
                     {% endfor %}
             </div>
         {% else %}
-            <p class="text-center text-gray-600 dark:text-gray-400 text-lg mt-8">Nenhum card encontrado para a sua pesquisa ou a página ainda não foi carregada.</p>
+            <p class="text-center text-gray-600 dark:text-gray-400 text-lg mt-8">Nenhum card encontrado para a sua pesquisa ou não há edital com data maior que a atual.</p>
         {% endif %}
     </div>
     <footer style="text-align: center; margin-top: 20px; color: #888;">
