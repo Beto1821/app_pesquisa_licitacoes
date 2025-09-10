@@ -15,28 +15,25 @@
                 var select = document.getElementById('site_select');
                 var publicacoesDiv = document.getElementById('publicacoes-div');
                 var modal = document.getElementById('itajuba-modal');
-                function togglePublicacoes() {
-                    if (select.value === 'itajuba' || select.value === 'pousoalegre' || select.value === 'caxambu' || select.value === 'varginha') {
-                        publicacoesDiv.style.display = 'none';
-                    } else {
-                        publicacoesDiv.style.display = '';
-                    }
-                }
-                select.addEventListener('change', togglePublicacoes);
-                togglePublicacoes(); // Executa ao carregar
+                // Removido: função togglePublicacoes e listeners relacionados a publicações
                 form.addEventListener('submit', function(e) {
                     var rota = select.value;
                     form.action = '/' + rota;
                     // Exibe o modal de processamento para todas as SREs
                     if (modal) {
                         // Atualiza o texto do modal conforme a SRE
+                        var sresNomes = {
+                            'varginha': 'SRE Varginha',
+                            'pocoscaldas': 'SRE Poços de Caldas',
+                            'itajuba': 'SRE Itajubá',
+                            'pousoalegre': 'SRE Pouso Alegre',
+                            'caxambu': 'SRE Caxambu',
+                            'campobelo': 'SRE Campo Belo',
+                            'saojoaodelrey': 'SRE São João Del Rey'
+                        };
                         var modalText = 'Processando dados...';
-                        if (select.value === 'varginha') {
-                            modalText = 'Processando dados da SRE Varginha...';
-                        } else if (select.value === 'pocoscaldas') {
-                            modalText = 'Processando dados da SRE Poços de Caldas...';
-                        } else if (select.value === 'itajuba') {
-                            modalText = 'Processando dados da SRE Itajubá...';
+                        if (sresNomes[select.value]) {
+                            modalText = 'Processando dados da ' + sresNomes[select.value] + '...';
                         }
                         var modalContent = modal.querySelector('div');
                         if (modalContent) {
@@ -152,6 +149,7 @@
                             <option value="pousoalegre" {% if site_select == 'pousoalegre' %}selected{% endif %}>SRE Pouso Alegre</option>
                             <option value="caxambu" {% if site_select == 'caxambu' %}selected{% endif %}>SRE Caxambu</option>
                             <option value="campobelo" {% if site_select == 'campobelo' %}selected{% endif %}>SRE Campo Belo</option>
+                            <option value="saojoaodelrey" {% if site_select == 'saojoaodelrey' %}selected{% endif %}>SRE São João Del Rey</option>
                         </select>
                     </div>
                     <div class="mb-4">
@@ -165,17 +163,7 @@
                             class="block w-full bg-gray-700 text-white border border-gray-600 rounded py-2 px-3 mb-4 focus:outline-none focus:border-yellow-400"
                         />
                     </div>
-                    <div class="mb-4" id="publicacoes-div" {% if site_select == 'caxambu' or site_select == 'varginha' or site_select == 'pocoscaldas' %}style="display:none;"{% endif %}>
-{% if max_pages is defined and site_select != 'caxambu' and site_select != 'varginha' and site_select != 'pocoscaldas' %}
-                            <label for="max_pages" class="block text-gray-300 text-sm font-bold mb-2">Publicações:</label>
-                            <select name="max_pages" id="max_pages" class="block w-full bg-gray-700 text-white border border-gray-600 rounded py-2 px-3 mb-4 focus:outline-none focus:border-yellow-400">
-                                {% for i in range(1, 11) %}
-                                    {% set label = i * 6 %}
-                                    <option value="{{ i }}" {% if max_pages|int == i %}selected{% endif %}>{{ label }} últimas publicações</option>
-                                {% endfor %}
-                            </select>
-{% endif %}
-                    </div>
+                    <!-- Removido: dropdown de publicações/max_pages -->
                     <button
                         type="submit"
                         class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded-lg w-full"
@@ -194,6 +182,7 @@
                     {% elif site_select == 'pousoalegre' %}Pouso Alegre
                     {% elif site_select == 'caxambu' %}Caxambu
                     {% elif site_select == 'campobelo' %}Campo Belo
+                    {% elif site_select == 'saojoaodelrey' %}São João Del Rey
                     {% else %}Poços de Caldas
                     {% endif %}
                     </h2>

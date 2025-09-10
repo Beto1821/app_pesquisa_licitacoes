@@ -18,7 +18,7 @@ def get_website_content_campobelo(start_param=0):
         return None
 
 
-def scrape_website_cards_campobelo(max_pages=10):
+def scrape_website_cards_campobelo(max_pages=8):
     all_cards = []
     page_number = 0
     while page_number < max_pages:

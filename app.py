@@ -81,23 +81,18 @@ def varginha():
     com filtro por termo de busca.
     """
     search_query = request.form.get('search_query', '')
-    max_pages = int(request.form.get('max_pages', 1))
     from datetime import datetime
-    cards = scrape_website_cards_varginha(max_pages)
+    cards = scrape_website_cards_varginha(10)  # Sempre 10 páginas/60 cards
     filtered_cards = []
-    # Filtra os cards pelo termo de busca e prazo
-    # import re removido (já está no topo)
     def prazo_maior_que_hoje(card):
         import re
         from datetime import datetime
         conteudo = card.get('full_html_content', '')
-        # Busca a primeira data no formato DD/MM/YY ou DD/MM/YYYY
         match = re.search(r'(\d{2}/\d{2}/\d{2,4})', conteudo)
         if not match:
             return False
         try:
             data_str = match.group(1)
-            # Corrige ano com 2 dígitos para 4 dígitos
             partes = data_str.split('/')
             if len(partes[2]) == 2:
                 ano = int(partes[2])
@@ -124,8 +119,7 @@ def varginha():
         'index.html',
         search_query=search_query,
         cards=filtered_cards,
-        site_select='varginha',
-        max_pages=max_pages
+        site_select='varginha'
     )
 
 
@@ -137,14 +131,9 @@ def pocoscaldas():
     com filtro por termo de busca.
     """
     search_query = request.form.get('search_query', '')
-    max_pages = int(request.form.get('max_pages', 1))
     from datetime import datetime
-    cards = scrape_website_cards_pocoscaldas(max_pages)
+    cards = scrape_website_cards_pocoscaldas(10)  # Sempre 10 páginas/60 cards
     filtered_cards = []
-    # import re removido (já está no topo)
-
-    # Função de filtro pode ser reimplementada se necessário, mas bloco anterior estava mal indentado e não era usado
-
     if request.method == 'POST':
         palavras = [p.strip() for p in search_query.lower().replace(',', ' ').split() if p.strip()]
         for card in cards:
@@ -158,8 +147,7 @@ def pocoscaldas():
         'index.html',
         search_query=search_query,
         cards=filtered_cards,
-        site_select='pocoscaldas',
-        max_pages=max_pages
+        site_select='pocoscaldas'
     )
 
 
@@ -233,7 +221,6 @@ def caxambu():
         max_pages=1
     )
 
-# Rota para exibir cards da SRE Campo Belo
 @app.route('/campobelo', methods=['GET', 'POST'])
 def campobelo():
     """
@@ -259,6 +246,32 @@ def campobelo():
         max_pages=1
     )
 
+
+# Rota para exibir cards da SRE São João Del Rey
+from sre_saojoaodelrey import scrape_website_cards_saojoaodelrey
+@app.route('/saojoaodelrey', methods=['GET', 'POST'])
+def saojoaodelrey():
+    """
+    Exibe cards de licitações da SRE São João Del Rey,
+    com filtro por termo de busca (múltiplas palavras).
+    """
+    search_query = request.form.get('search_query', '')
+    cards = scrape_website_cards_saojoaodelrey(10)  # Sempre 10 páginas/60 cards
+    filtered_cards = []
+    if request.method == 'POST':
+        palavras = [p.strip() for p in search_query.lower().replace(',', ' ').split() if p.strip()]
+        for card in cards:
+            conteudo = card.get('full_html_content', '').lower()
+            if not palavras or any(p in conteudo for p in palavras):
+                filtered_cards.append(card)
+    else:
+        filtered_cards = cards[:]
+    return render_template(
+        'index.html',
+        search_query=search_query,
+        cards=filtered_cards,
+        site_select='saojoaodelrey'
+    )
 
 if __name__ == "__main__":
     import os
