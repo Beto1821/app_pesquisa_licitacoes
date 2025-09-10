@@ -6,7 +6,7 @@ from sre_pocoscaldas import scrape_website_cards_pocoscaldas
 from sre_itajuba import scrape_website_cards_itajuba
 from sre_pousoalegre import scrape_website_cards_pousoalegre
 from sre_caxambu import scrape_website_cards_caxambu
-
+from sre_campobelo import scrape_website_cards_campobelo
 
 app = Flask(__name__)
 
@@ -230,6 +230,32 @@ def caxambu():
         search_query=search_query,
         cards=filtered_cards,
         site_select='caxambu',
+        max_pages=1
+    )
+
+# Rota para exibir cards da SRE Campo Belo
+@app.route('/campobelo', methods=['GET', 'POST'])
+def campobelo():
+    """
+    Exibe cards de licitações da SRE Campo Belo,
+    com filtro por termo de busca (múltiplas palavras).
+    """
+    search_query = request.form.get('search_query', '')
+    cards = scrape_website_cards_campobelo()
+    filtered_cards = []
+    if request.method == 'POST':
+        palavras = [p.strip() for p in search_query.lower().replace(',', ' ').split() if p.strip()]
+        for card in cards:
+            conteudo = card.get('full_html_content', '').lower()
+            if not palavras or any(p in conteudo for p in palavras):
+                filtered_cards.append(card)
+    else:
+        filtered_cards = cards[:]
+    return render_template(
+        'index.html',
+        search_query=search_query,
+        cards=filtered_cards,
+        site_select='campobelo',
         max_pages=1
     )
 
