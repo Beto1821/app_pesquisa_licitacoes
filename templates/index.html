@@ -11,17 +11,13 @@
                 document.documentElement.classList.toggle('dark');
             }
             window.addEventListener('DOMContentLoaded', function() {
-                var form = document.querySelector('form');
+                var form = document.getElementById('search-form');
                 var select = document.getElementById('site_select');
-                var publicacoesDiv = document.getElementById('publicacoes-div');
                 var modal = document.getElementById('itajuba-modal');
-                // Removido: função togglePublicacoes e listeners relacionados a publicações
                 form.addEventListener('submit', function(e) {
                     var rota = select.value;
                     form.action = '/' + rota;
-                    // Exibe o modal de processamento para todas as SREs
                     if (modal) {
-                        // Atualiza o texto do modal conforme a SRE
                         var sresNomes = {
                             'varginha': 'SRE Varginha',
                             'pocoscaldas': 'SRE Poços de Caldas',
@@ -41,7 +37,22 @@
                         }
                         modal.style.display = 'flex';
                     }
+                    e.preventDefault();
+                    setTimeout(function() {
+                        form.submit();
+                    }, 100);
                 });
+                // Botão de limpar pesquisa: reseta o formulário e volta ao estado inicial
+                var clearBtn = document.getElementById('clear-search-btn');
+                if (clearBtn) {
+                    clearBtn.addEventListener('click', function() {
+                        form.reset();
+                        select.selectedIndex = 0;
+                        var searchInput = document.getElementById('search_query');
+                        if (searchInput) searchInput.value = '';
+                        window.location.href = '/';
+                    });
+                }
             });
         </script>
     <style>
@@ -139,10 +150,11 @@
             <span class="block text-lg text-yellow-400 mt-6 mb-2 text-center">Encontre licitações por palavra-chave</span>
         <div class="search-form">
         <section class="bg-black p-6 rounded-lg shadow-lg mb-8">
-                <form method="POST" action="{{ url_for(site_select or 'varginha') }}" class="flex flex-col gap-3 items-stretch">
+                <form method="POST" action="/" class="flex flex-col gap-3 items-stretch" id="search-form">
                     <div class="mb-4">
                         <label for="site_select" class="block text-gray-300 text-sm font-bold mb-2">Origem dos dados:</label>
                         <select id="site_select" name="site_select" class="block w-full bg-gray-700 text-white border border-gray-600 rounded py-2 px-3 mb-4 focus:outline-none focus:border-yellow-400">
+                            <option value="" {% if not site_select or site_select == '' %}selected{% endif %} disabled hidden>Selecione a SRE</option>
                             <option value="varginha" {% if site_select == 'varginha' %}selected{% endif %}>SRE Varginha</option>
                             <option value="pocoscaldas" {% if site_select == 'pocoscaldas' %}selected{% endif %}>SRE Poços de Caldas</option>
                             <option value="itajuba" {% if site_select == 'itajuba' %}selected{% endif %}>SRE Itajubá</option>
@@ -163,17 +175,25 @@
                             class="block w-full bg-gray-700 text-white border border-gray-600 rounded py-2 px-3 mb-4 focus:outline-none focus:border-yellow-400"
                         />
                     </div>
-                    <!-- Removido: dropdown de publicações/max_pages -->
-                    <button
-                        type="submit"
-                        class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded-lg w-full"
-                    >
-                        Pesquisar
-                    </button>
+                    <div class="flex gap-2">
+                        <button
+                            type="submit"
+                            class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded-lg w-full"
+                        >
+                            Pesquisar
+                        </button>
+                        <button
+                            type="button"
+                            id="clear-search-btn"
+                            class="bg-gray-400 hover:bg-gray-500 text-gray-900 font-bold py-2 px-4 rounded-lg w-full"
+                        >
+                            Limpar Pesquisa
+                        </button>
+                    </div>
                 </form>
             </section>
 
-        {% if cards %}
+    {% if cards and site_select %}
             <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6 text-center">
                     Resultados da Pesquisa - SRE 
                     {% if site_select == 'varginha' %}Varginha
