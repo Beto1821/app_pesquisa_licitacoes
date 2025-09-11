@@ -1,5 +1,4 @@
 # --- Rotas Flask ---
-import requests
 import re
 from flask import Flask, render_template, request, redirect, url_for
 from sre_varginha import scrape_website_cards_varginha
@@ -37,9 +36,9 @@ def varginha():
     com filtro por termo de busca.
     """
     search_query = request.form.get('search_query', '')
-    from datetime import datetime
     cards = scrape_website_cards_varginha(10)  # Sempre 10 páginas/60 cards
     filtered_cards = []
+
     def prazo_maior_que_hoje(card):
         import re
         from datetime import datetime
@@ -77,6 +76,7 @@ def varginha():
         cards=filtered_cards,
         site_select='varginha'
     )
+
 
 # Rota para exibir cards da SRE Poços de Caldas
 @app.route('/pocoscaldas', methods=['GET', 'POST'])

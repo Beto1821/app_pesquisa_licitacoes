@@ -229,7 +229,9 @@
                     {% endfor %}
             </div>
         {% else %}
+            {% if (search_query or site_select) and cards is not none and cards|length == 0 %}
             <p class="text-center text-gray-600 dark:text-gray-400 text-lg mt-8">Nenhum card encontrado para a sua pesquisa ou não há edital com data maior que a atual.</p>
+            {% endif %}
         {% endif %}
     </div>
     <footer style="text-align: center; margin-top: 20px; color: #888;">
